@@ -27,7 +27,7 @@ SECRET_KEY = 'taro7!^dq#7&%jifpm1gd^s^350fpmga_pb+_!7f7oh)k%@qax'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['saltohan.herokuapp.com']
 
 
 # Application definition
