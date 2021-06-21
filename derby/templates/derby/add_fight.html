@@ -1,0 +1,129 @@
+{% extends 'system/main/dashboard_base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-5 col-lg-6">
+        <div class="card mb-4 border-left-primary">
+            <div class="card-header text-primary">
+                Add entry for {{entry.entry_name}}
+            </div>
+            <div class="card-body">
+                {%if success_add_fight%}
+                    <div class="alert alert-success">{{success_add_fight}}</div>
+                {%endif%}
+                {%if error_count_fight_gt_num_fight%}
+                    <div class="alert alert-warning">{{error_count_fight_gt_num_fight}}</div>
+                {%endif%}
+                <form method="POST" action="{% url 'derby_add_fight' derby_id=entry.tournament_id entry_id=entry.id%}">
+                    {% csrf_token %}
+                    <table class="table">
+                        <tr>
+                            <td>Leg Band</td> 
+                            <td> 
+                                <input type="text" name="leg_band" value="{{rand_data.legband}}" {{disabled}} class="form-control"> 
+                                {%for error in form.leg_band.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>Wing Band</td> 
+                            <td> 
+                                <input type="text" name="wing_band" value="{{rand_data.wingband}}" {{disabled}} class="form-control">
+                                {%for error in form.wing_band.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>weight(grams): </td> 
+                            <td> 
+                                <input type="text" name="weight" value="{{rand_data.weight}}" {{disabled}} class="form-control"> 
+                                {%for error in form.weight.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>bet: </td> 
+                            <td> 
+                                <input type="text" name="bet" value="{{min_bet}}" {{disabled}} class="form-control"> 
+                                {%for error in form.bet.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td> <input type="submit" name="derby_create" {{disabled}} class="btn btn-primary {{disabled}} btn-sm" value="Save"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-7 col-lg-6">
+        <div class="card mb-4 border-left-primary">
+            <div class="card-header py-3">
+                <h6 class="m-0 text-primary float-left">List entry of {{entry.entry_name}}</h6>
+                <div class="dropdown no-arrow float-right">
+                    <a class="dropdown-toggle btn btn-circle btn-sm btn-primary" href="#" role="button" id="dropdownMenuLink"
+                        data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Dropdown Header:</div>
+                        <a class="dropdown-item" href="#">View Profile</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="{%url 'derby_add_entry' derby_id=entry.tournament_id%}">Back to add entry</a>
+                        <a class="dropdown-item" href="{%url 'derby_index'%}">Back to add derby</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered">
+                <tr>
+                    <th>Leg Band </th>
+                    <th>Wing Band </th>
+                    <th>Weight </th>
+                    <th>Bet </th>
+                    <th> </th>
+                </tr>
+                {% for fight in fights %}
+                    <tr>
+                        <td>
+                            {{fight.leg_band}}
+                        </td>
+                        <td>
+                            {{fight.wing_band}}
+                        </td>
+                        <td>
+                            {{fight.weight}}
+                        </td>
+                        <td>
+                            {{fight.bet}}
+                        </td>
+                        <td>
+                            <div class="dropdown no-arrow float-right">
+                                <a class="dropdown-toggle btn btn-circle btn-sm border-primary" href="#" role="button" id="dropdownMenuLink"
+                                    data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-primary"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                    aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Dropdown Header:</div>
+                                    <a class="dropdown-item" href="#">View Details</a>
+                                    <a class="dropdown-item" href="#">Edit</a>
+                                    <a class="dropdown-item" href="#">Delete</a>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                {%endfor%}
+            </table>
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}

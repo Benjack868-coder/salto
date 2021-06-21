@@ -1,0 +1,5 @@
+.owner-list:hover {
+    cursor : pointer;
+    color: blue;
+    background-color: rgb(240,240,240);
+}

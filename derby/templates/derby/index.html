@@ -1,0 +1,146 @@
+{% extends 'system/main/dashboard_base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-5 col-lg-6">
+        <div class="card mb-4 border-left-primary">
+            <div class="card-header text-primary">
+                Create New Derby
+            </div>
+            <div class="card-body">
+                {%if success_add_derby%}
+                    <div class="alert alert-success">{{success_add_derby}}</div>
+                {%endif%}
+                <form method="POST" action="{% url 'derby_index' %}">
+                {% csrf_token %}
+                    <table class="table">
+                        <tr>
+                            <td> Name of Derby: </td>
+                            <td> 
+                                <input type="text" name="name" value="{{form.name.value}}" class="form-control"> 
+                                {%for error in form.name.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Location: </td> 
+                            <td> <input type="text" name="location" value="{{form.location.value}}"class="form-control"> 
+                                {%for error in form.location.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Derby Type :</td>
+                            <td>
+                                <select name="derby_type" class="form-control">
+                                    <option value=""  selected="selected"> Select here</option>
+                                    <option value="1">Stag</option>
+                                    <option value="2">Bull stag</option>
+                                    <option value="3">Cock</option>
+                                </select>
+                                {%for error in form.derby_type.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Number of Entry: </td> 
+                            <td> 
+                                <input type="number" name="no_entry" value="{{form.no_entry.value}}" class="form-control"> 
+                                {%for error in form.no_entry.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Minimum Bet: </td> 
+                            <td> 
+                                <input type="text" name="min_bet" value="{{form.min_bet.value}}" class="form-control"> 
+                                    {%for error in form.min_bet.errors %}
+                                        <span class="text-danger small">{{error}}</span>
+                                    {%endfor%}
+                                </td>
+                        </tr>
+                        <tr>
+                            <td> Start date: </td> 
+                            <td> 
+                                <input type="date" name="s_date" value="{{form.s_date.value}}" class="form-control"> 
+                                {%for error in form.s_date.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> End date: </td> 
+                            <td> 
+                                <input type="date" name="e_date" value="{{form.e_date.value}}" class="form-control"> 
+                                {%for error in form.e_date.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td> <input type="submit" name="derby_create" value="Save" class="btn btn-primary"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-7 col-lg-6">
+        <div class="card mb-4 border-left-primary">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">List of derby</h6>
+            </div>
+            <div class="card-body">
+                {%for derby in derby_list%}
+                    <div class="card-body border-bottom border-primary">
+                        <div class="dropdown no-arrow float-right">
+                            <a class="dropdown-toggle btn border-primary btn-circle btn-sm" href="#" role="button" id="dropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-primary"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                aria-labelledby="dropdownMenuLink">
+                                <div class="dropdown-header">Dropdown Header:</div>
+                                <a class="dropdown-item" href="{%url 'derby_add_entry' derby_id=derby.id%}">Add Entry</a>
+                                <a class="dropdown-item" href="{%url 'derby_profile' derby_id=derby.id%}">View Details</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Proceed to auto-match</a>
+                            </div>
+                        </div>
+                        <div class="align-items-left">
+                            <div class="text-primary">{{derby.name}}</div>
+                            <div>Location: {{derby.location}}</div>
+                            <div class="text-black-50 small">Minimum bet: {{derby.min_bet}}</div>
+                            <div class="text-black-50 small">start: {{derby.s_date}} end: {{derby.e_date}}</div>
+                        </div>
+                    </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    const chatSocket = new WebSocket('ws://localhost:8000/derby/');
+    chatSocket.onopen = function(){
+        setInterval(function(){
+            chatSocket.send('hahaha')
+        },1000)
+
+    }
+
+    chatSocket.onmessage = function(e) {
+        const data = JSON.parse(e.data)
+        console.log(data)
+    }
+
+    chatSocket.onclose = function(e) {
+        console.error('Chat socket closed unexpectedly');
+    };
+</script>
+
+{%endblock%}

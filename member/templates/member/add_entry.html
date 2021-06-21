@@ -1,0 +1,108 @@
+{% extends 'system/main/dashboard_base.html' %}
+
+{% block content %}
+    <div class="row gutters-sm">
+        <div class="col-md-3 mb-3">
+            <div class="card">
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">
+                        <div>
+                            <div class="dropdown no-arrow float-right">
+                                <a class="dropdown-toggle btn btn-primary btn-circle btn-sm" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                                </a>
+                                <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                    aria-labelledby="dropdownMenuLink">
+                                    <div class="dropdown-header">Dropdown Header:</div>
+                                    <a class="dropdown-item" href="{%url 'derby_add_entry' derby_id=1%}">Add entry</a>
+                                    <a class="dropdown-item" href="#">Goto match maker</a>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-item" href="#">Edit Derby</a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <h6 class="mb-0 text-xs">Name : </h6>
+                        <span class="text-secondary">{{member.owner}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <h6 class="mb-0 text-xs">Farm name : </h6>
+                        <span class="text-secondary">{{member.farm_name}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <h6 class="mb-0 text-xs">location : </h6>
+                        <span class="text-secondary">{{member.location}} </span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <h6 class="mb-0 text-xs">email </h6>
+                        <span class="text-secondary">{{member.email}}</span>
+                    </li>
+                    <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
+                        <h6 class="mb-0 text-xs">contact number : </h6>
+                        <span class="text-secondary">{{member.contact_number}}</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-md-9">
+            <div class="row gutters-sm">
+                <div class="col-md-6">
+                    <div class="card">
+                        <div class="card-header">
+                            List of entries
+                        </div>
+                        <div class="card-body">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>wing band</th>
+                                    <th>leg band</th>
+                                    <th>weight</th>
+                                    <th>bet</th>
+                                </tr>
+                                {%for fight in fights%}
+                                    <tr>
+                                        <td>{{fight.wing_band}}</td>
+                                        <td>{{fight.leg_band}}</td>
+                                        <td>{{fight.weight}}</td>
+                                        <td>{{fight.bet}}</td>
+                                    </tr>
+                                {%endfor%}
+                            </table>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="card">
+
+                        <div class="card-body">
+                            sdfdsfsdf
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row gutters-sm">
+                <div class="col-sm-6 mb-3">
+                    <div class="card h-100">
+
+                    </div>
+                </div>
+                <div class="col-sm-6 mb-3">
+                  <div class="card h-100">
+
+                  </div>
+                </div>
+              </div>
+
+            <div class="row gutters-sm">
+                <div class="col-md-12" >
+                    <div class="card">
+                    <div class="card-body">
+
+                    </div>
+                </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{%endblock%}

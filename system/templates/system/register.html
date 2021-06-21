@@ -1,0 +1,93 @@
+{% extends 'system/main/base.html' %}
+
+{% block content %}
+    <div class="container">
+
+        <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card-body p-0">
+                <!-- Nested Row within Card Body -->
+                <div class="row">
+                    <div class="col-lg-5 d-none d-lg-block bg-register-image"></div>
+                    <div class="col-lg-7">
+                        <div class="p-5">
+                            <div class="text-center">
+                                <h1 class="h4 text-gray-900 mb-4">Create an Account!</h1>
+                            </div>
+                            <form method="POST" action="{% url 'system_register'%}" class="user">
+                                {% csrf_token %}
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label class="text-primary">Firstname :</label>
+                                        <input type="text" name="system_firstname" value="{{form.system_firstname.value}}" class="form-control border-success rounded-0">
+                                        <div class="">
+                                            {% for error in form.system_firstname.errors %}
+                                                <span class="text-danger small mb-1">{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="text-primary">Lastname :</label>
+                                        <input type="text" name="system_lastname"  value="{{form.system_lastname.value}}" class="form-control border-success rounded-0">
+                                        <div class="">
+                                            {% for error in form.system_lastname.errors %}
+                                                <span class="text-danger small mb-1">{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label class="text-primary">Email :</label>
+                                    <input type="text" name="system_email"  value="{{form.system_email.value}}" class="form-control border-success rounded-0">
+                                    <div class="">
+                                        {% for error in form.system_email.errors %}
+                                            <span class="text-danger small mb-1">{{error}}</span>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                                <div class="form-group row">
+                                    <div class="col-sm-6 mb-3 mb-sm-0">
+                                        <label class="text-primary">Password :</label>
+                                        <input type="password" name="system_password"  value="{{form.system_password.value}}" class="form-control border-success rounded-0">
+                                        <div class="">
+                                            {% for error in form.system_password.errors %}
+                                                <span class="text-danger small mb-1">{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <label class="text-primary">Confirm password :</label>
+                                        <input type="password" name="system_password_confirm"  value="{{form.system_password_confirm.value}}" class="form-control border-success rounded-0" >
+                                        <div class="">
+                                            {% for error in form.system_password_confirm.errors %}
+                                                <span class="text-danger small mb-1">{{error}}</span>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                    {% for error in form.non_field_errors %}
+                                        <span class="text-danger small">{{error}}</span>
+                                    {% endfor %}
+                                </div>
+                                <div>
+                                    {% if registered %}
+                                        <div class="alert alert-success">You successfully created your account. Click <a href="{%url 'system_login'%}">here</a> to login.</div>
+                                    {% endif %}
+                                </div>
+                                <button type="submit" class="btn btn-primary btn-block rounded-0">
+                                    Register Account
+                                </button>
+                            </form>
+                            <hr>
+                            <div class="text-center">
+                                <a class="small" href="{% url 'system_recover_account' %}">Forgot Password?</a>
+                            </div>
+                            <div class="text-center">
+                                <a class="small" href="{% url 'system_login' %}">Already have an account? Login!</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+{% endblock %}

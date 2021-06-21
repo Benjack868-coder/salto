@@ -1,0 +1,111 @@
+{% extends 'system/main/dashboard_base.html' %}
+{% block content %}
+{%load derby_extras%}
+<div class="row">
+    <div class="col-xl-5 col-lg-6">
+        <div class="card mb-4 border-left-primary">
+            <div class="card-header text-primary">
+                <span>Entry form</span> <show-members-dialog></show-members-dialog>
+            </div>
+            <div class="card-body">
+                {%if success_add_entry%}
+                    <div class="alert alert-success">{{success_add_entry}}</div>
+                {%endif%}
+                <form method="POST" action="{% url 'derby_add_entry' derby_id=derby.id %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="tournament_id" value="{{derby.id}}" >
+                    <input type="hidden" name="member_id" value="{{form.member_id.value}}" >
+                    <table class="table ">
+                        <tr>
+                            <td> Owner: </td> 
+                            <td> 
+                                <input type="text" name="owner" value="{{form.owner.value}}" class="form-control"> 
+                                {%for error in form.owner.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Entry Name: </td> 
+                            <td> 
+                                <input type="text" name="entry_name" value="{{form.entry_name.value}}" class="form-control"> 
+                                {%for error in form.entry_name.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Email: </td> 
+                            <td> 
+                                <input type="text" name="email" value="{{form.email.value}}" class="form-control"> 
+                                {%for error in form.email.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> Contact number: </td> 
+                            <td> 
+                                <input type="text" name="contact_number" value="{{form.contact_number.value}}" class="form-control"> 
+                                {%for error in form.contact_number.errors %}
+                                    <span class="text-danger small">{{error}}</span>
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td> <input type="submit" name="derby_create" value="Save" class="btn btn-primary btn-sm"></td>
+                        </tr>
+                    </table>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-7 col-lg-6">
+        <div class="card mb-4 border-left-primary">
+            <div class="card-header py-3">
+                <h6 class="m-0 text-primary float-left">List entry of {{derby.name}}</h6>
+                <div class="dropdown no-arrow float-right">
+                    <a class="dropdown-toggle btn btn-primary btn-circle btn-sm" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fas fa-ellipsis-v fa-sm fa-fw text-gray-400"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                        aria-labelledby="dropdownMenuLink">
+                        <div class="dropdown-header">Dropdown Header:</div>
+                        <a class="dropdown-item" href="{%url 'derby_profile' derby_id=derby.id%}">View details</a>
+                        <a class="dropdown-item" href="{%url 'derby_index'%}">Add new derby</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Proceed to auto-match</a>
+                    </div>
+                </div>
+            </div>
+            <div class="card-body">
+                {%for entry in entry_list%}
+                    <div class="card-body border-bottom border-primary">
+                        <div class="dropdown no-arrow float-right">
+                            <a class="dropdown-toggle btn btn-circle btn-sm border-primary" href="#" role="button" id="dropdownMenuLink"
+                                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <i class="fas fa-ellipsis-v fa-sm fa-fw text-primary"></i>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right shadow animated--fade-in"
+                                aria-labelledby="dropdownMenuLink">
+                                <div class="dropdown-header">Dropdown Header:</div>
+                                <a class="dropdown-item" href="{% url 'derby_add_fight' derby_id=derby.id entry_id=entry.id %}">Add Fight</a>
+                                <a class="dropdown-item" href="#">View Profile</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="#">Proceed to auto-match</a>
+                            </div>
+                        </div>
+                        <div class="align-items-left">
+                            <div class="text-primary">{{entry.owner}}</div>
+                            <div>Entry name: {{entry.entry_name}} <spa class="badge badge-info">{{entry.id|total_entry}}</span> </div>
+                            <div class="text-black-50 small">Contact #: {{entry.contact_number}}</div>
+                            <div class="text-black-50 small">E-mail : {{entry.email}}</div>
+                        </div>
+                    </div>
+                {%endfor%}
+            </div>
+        </div>
+    </div>
+</div>
+{%endblock%}
