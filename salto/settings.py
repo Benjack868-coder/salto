@@ -42,10 +42,7 @@ INSTALLED_APPS = [
     'system.apps.SystemConfig',
     'derby.apps.DerbyConfig',
     'member.apps.MemberConfig',
-    'api.apps.ApiConfig',
-    'frontend.apps.FrontendConfig',
     'channels',
-    'rest_framework'
 ]
 
 MIDDLEWARE = [
